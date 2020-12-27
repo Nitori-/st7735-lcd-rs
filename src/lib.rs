@@ -228,6 +228,13 @@ where
         self.write_words_buffered(colors)
     }
 
+    pub fn write_raw_pixels_at(&mut self, pixels: &[u8], x: u16, y: u16) -> Result<(), ()> {
+        self.set_address_window(x, y, x, y)?;
+        self.write_command(Instruction::RAMWR, None)?;
+        self.start_data()?;
+        self.write_data(pixels)
+    }
+
     /// Sets pixel colors at the given drawing window
     pub fn set_pixels<P: IntoIterator<Item = u16>>(
         &mut self,
